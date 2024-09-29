@@ -22,7 +22,24 @@ class FareCalculator {
     console.log("\nTotal Fares Per User:");
     for (const userID in this.users) {
       const totalFare = this.users[userID].getTotalFare();
+      const weeklyCapHit = this.users[userID].hasHitWeeklyCap();
+      const dailyCapHit = this.users[userID].hasHitDailyCap();
+
       console.log(`User ${userID}: Total Fare = $${totalFare.toFixed(2)}`);
+
+      if (weeklyCapHit) {
+        console.log(`User ${userID} has hit the weekly cap!`);
+      } else {
+        console.log(`User ${userID} has not hit the weekly cap.`);
+      }
+
+      if (dailyCapHit) {
+        console.log(
+          `User ${userID} has hit the daily cap on at least one day!`
+        );
+      } else {
+        console.log(`User ${userID} has not hit the daily cap on any day.`);
+      }
     }
   }
 }

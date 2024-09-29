@@ -3,7 +3,7 @@ interface Cap {
   weekly: number;
 }
 
-const caps: { [key: string]: Cap } = {
+export const caps: { [key: string]: { daily: number; weekly: number } } = {
   "Green-Green": { daily: 8, weekly: 55 },
   "Red-Red": { daily: 12, weekly: 70 },
   "Green-Red": { daily: 15, weekly: 90 },

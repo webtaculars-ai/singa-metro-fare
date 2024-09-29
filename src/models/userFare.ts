@@ -1,4 +1,4 @@
-import { applyCaps } from "../services/capManager";
+import { applyCaps, caps } from "../services/capManager";
 import moment from "moment";
 
 class UserFare {
@@ -43,21 +43,38 @@ class UserFare {
 
     this.dailyTracker[date][route] += cappedFare;
     this.weeklyTracker[week][route] += cappedFare;
-
-    console.log(
-      `User ${this.userID} trip from ${fromLine} to ${toLine} on ${dateTime}: Fare = $${cappedFare}`
-    );
   }
 
   getTotalFare(): number {
     let totalFare = 0;
-
     for (const week in this.weeklyTracker) {
       for (const route in this.weeklyTracker[week]) {
         totalFare += this.weeklyTracker[week][route];
       }
     }
     return totalFare;
+  }
+
+  hasHitWeeklyCap(): boolean {
+    for (const week in this.weeklyTracker) {
+      for (const route in this.weeklyTracker[week]) {
+        if (this.weeklyTracker[week][route] >= caps[route].weekly) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  hasHitDailyCap(): boolean {
+    for (const date in this.dailyTracker) {
+      for (const route in this.dailyTracker[date]) {
+        if (this.dailyTracker[date][route] >= caps[route].daily) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 }
 
